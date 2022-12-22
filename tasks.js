@@ -32,7 +32,7 @@ function startApp(name) {
  * @returns {void}
  */
 function onDataReceived(text) {
-  // console.log("hello" + text.replace("hello", ""));
+  // console.log(text.trim().startsWith("add "));
   if (text === "quit\n" || text === "exit\n") {
     quit();
   } else if (text.trim().startsWith("hello ") || text.trim() === "hello") {
@@ -41,10 +41,14 @@ function onDataReceived(text) {
     help();
   } else if (text === "list\n") {
     list();
+  } else if (text.trim().startsWith("add ") || text.trim() === "add") {
+    add(text.trim());
   } else {
     unknownCommand(text);
   }
 }
+
+let list1 = ["HTML", "CSS", "JS"];
 
 /**
  * prints "unknown command"
@@ -103,10 +107,26 @@ function help() {
  * @returns {void}
  */
 function list() {
-  let list = ["HTML", "CSS", "JS"];
+  for (let i = 0; i < list1.length; i++) {
+    console.log(`${i + 1}- ${list1[i]}`);
+  }
+}
 
-  for (let i = 0; i < list.length; i++) {
-    console.log(`${i + 1}- ${list[i]}`);
+/**
+ * add command
+ *
+ * @returns {void}
+ */
+function add(task) {
+  const word = task.split(" ");
+  // word[1].replace("");
+  // console.log(task.replace(word[0], ""));
+
+  if (word.length > 1) {
+    // console.log(task.replace("add", "").trim());
+    list1.push(task.replace("add", "").trim());
+  } else {
+    console.log("Please Enter a task");
   }
 }
 
