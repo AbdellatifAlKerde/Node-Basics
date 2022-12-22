@@ -74,7 +74,7 @@ function quit() {
 }
 
 /**
- * get all the commands
+ * get all the the commands
  *
  * @returns {void}
  */
