@@ -39,6 +39,8 @@ function onDataReceived(text) {
     hello(text.trim() + "!");
   } else if (text === "help\n") {
     help();
+  } else if (text === "list\n") {
+    list();
   } else {
     unknownCommand(text);
   }
@@ -64,7 +66,7 @@ function hello(text) {
   const word = text.split(" ");
 
   if (word.length > 1) {
-    out = text.replace("hello", `${word[0]}`, 1);
+    out = text;
   } else {
     out = text;
   }
@@ -93,6 +95,19 @@ function help() {
   console.log(
     "quit / exit --- to stop the app\nhello --- greetings!\nhello (your name!) --- greetings! (hello name)\nhelp --- list the commands"
   );
+}
+
+/**
+ * list command
+ *
+ * @returns {void}
+ */
+function list() {
+  let list = ["HTML", "CSS", "JS"];
+
+  for (let i = 0; i < list.length; i++) {
+    console.log(`${i + 1}- ${list[i]}`);
+  }
 }
 
 // The following line starts the application
