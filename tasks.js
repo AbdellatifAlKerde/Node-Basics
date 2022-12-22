@@ -99,7 +99,7 @@ function quit() {
  */
 function help() {
   console.log(
-    "quit / exit --- to stop the app\nhello --- greetings!\nhello (your name!) --- greetings! (hello name)\nhelp --- list the commands"
+    "quit / exit --- to stop the app\nhello --- greetings!\nhello (your name!) --- greetings! (hello name)\nlist --- to list your tasks\nadd (task) --- add your task to the list\nremove / remove (index) --- 'remove' will remove the last item\nhelp --- list the commands"
   );
 }
 
