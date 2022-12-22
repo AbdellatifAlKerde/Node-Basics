@@ -43,6 +43,8 @@ function onDataReceived(text) {
     list();
   } else if (text.trim().startsWith("add ") || text.trim() === "add") {
     add(text.trim());
+  } else if (text.trim().startsWith("remove") || text.trim() === "remove") {
+    remove(text.trim());
   } else {
     unknownCommand(text);
   }
@@ -127,6 +129,26 @@ function add(task) {
     list1.push(task.replace("add", "").trim());
   } else {
     console.log("Please Enter a task");
+  }
+}
+
+/**
+ * remove command
+ *
+ * @returns {void}
+ */
+function remove(task) {
+  const word = task.split(" ");
+  // console.log(word[0]);
+
+  if (word.length <= 1) {
+    list1.pop();
+  } else if (word.length > 1) {
+    // let i = Number(task.replace("remove", "").trim());
+    // console.log(list1.splice(i));
+    list1.splice(Number(task.replace("remove", "").trim()), 1);
+  } else {
+    console.log("Error (should be: remove (nb))");
   }
 }
 
