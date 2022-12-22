@@ -91,7 +91,7 @@ function quit() {
  */
 function help() {
   console.log(
-    "quit / exit --- to stop the app\nhello --- greetings\nhelp --- list the commands"
+    "quit / exit --- to stop the app\nhello --- greetings!\nhello (your name!) --- greetings! (hello name)\nhelp --- list the commands"
   );
 }
 
