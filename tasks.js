@@ -143,10 +143,12 @@ function remove(task) {
 
   if (word.length <= 1) {
     list1.pop();
+  } else if (task.replace("remove", "").trim() > list1.length) {
+    console.log("Number does not exist");
   } else if (word.length > 1) {
     // let i = Number(task.replace("remove", "").trim());
     // console.log(list1.splice(i));
-    list1.splice(Number(task.replace("remove", "").trim()), 1);
+    list1.splice(task.replace("remove", "").trim(), 1);
   } else {
     console.log("Error (should be: remove (nb))");
   }
