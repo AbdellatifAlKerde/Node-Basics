@@ -8,7 +8,19 @@
  * @param  {string} name the name of the app
  * @returns {void}
  */
+
+let inputjson = "./database.json";
+
+if (process.argv[2]) {
+  inputjson = "./blah.json";
+
+  console.log("----------------");
+} else {
+  inputjson = "./database.json";
+}
+
 function startApp(name) {
+  readData();
   process.stdin.resume();
   process.stdin.setEncoding("utf8");
   process.stdin.on("data", onDataReceived);
@@ -34,6 +46,7 @@ function startApp(name) {
 function onDataReceived(text) {
   // console.log(text.trim().startsWith("add "));
   if (text === "quit\n" || text === "exit\n") {
+    saveData();
     quit();
   } else if (text.trim().startsWith("hello ") || text.trim() === "hello") {
     hello(text.trim() + "!");
@@ -61,7 +74,22 @@ function onDataReceived(text) {
   }
 }
 
-let list1 = ["[ ] HTML", "[✓] CSS", "[ ] JS"];
+let list1 = [
+  {
+    taskName: "HTML",
+    done: false,
+  },
+  {
+    taskName: "CSS",
+    done: false,
+  },
+  {
+    taskName: "JS",
+    done: false,
+  },
+];
+
+const fs = require("fs");
 
 /**
  * prints "unknown command"
@@ -94,6 +122,34 @@ function hello(text) {
 }
 
 /**
+ *
+ * @returns {void}
+ */
+function readData() {
+  fs.readFile(inputjson, (data) => {
+    try {
+      let task = JSON.parse(data);
+    } catch (error) {
+      console.error("Empty database");
+    }
+  });
+}
+
+/**
+ * Save the commands
+ *
+ * @returns {void}
+ */
+function saveData() {
+  // console.log(arrayObject)
+  let data = JSON.stringify(list1);
+  fs.writeFileSync(inputjson, data, (err) => {
+    if (err) throw err;
+    console.log("Save Completed");
+  });
+}
+
+/**
  * Exits the application
  *
  * @returns {void}
@@ -121,7 +177,7 @@ function help() {
  */
 function list() {
   for (let i = 0; i < list1.length; i++) {
-    console.log(`${i + 1}- ${list1[i]}`);
+    console.log(`${i + 1}- [ ] ${list1[i].taskName}`);
   }
 }
 
@@ -137,7 +193,9 @@ function add(task) {
 
   if (word.length > 1) {
     // console.log(task.replace("add", "").trim());
-    list1.push(`[ ] ${task.replace("add", "").trim()}`);
+    // list1.push(`[ ] ${task.replace("add", "").trim()}`);
+    // console.log(list1[list1.length - 1].taskName);
+    list1[list1.length - 1].taskName = `[ ] ${task.replace("add", "").trim()}`;
   } else {
     console.log("Please Enter a task");
   }
@@ -179,13 +237,13 @@ function edit(edit) {
     if (arr.length > 2) {
       const thrWord = arr.slice(2).join(" ");
       if (isNaN(secWord) == false && secWord <= list1.length) {
-        list1[pars - 1] = `[ ] ${thrWord}`;
+        list1[pars - 1].taskName = `[ ] ${thrWord}`.slice(4);
       } else {
         console.log("Error index Invalid");
       }
     } else if (arr.length - 1) {
-      list1.splice(list1.length - 1);
-      list1.push(`[ ] ${secWord}`);
+      // list1.splice(list1.length - 1);
+      list1[list1.length - 1].taskName = `[ ] ${secWord}`.slice(4);
     }
   } else {
     console.log("Error");
@@ -204,8 +262,12 @@ function check(check) {
   if (word[0] === "check") {
     const nb = word.slice(1, 2).join(" ");
     let parse = parseInt(nb);
-    if (isNaN(nb) == false && nb <= list1.length) {
-      list1[parse - 1] = `[✓] ${list1[parse - 1].slice(4)}`;
+    if (
+      isNaN(nb) == false &&
+      nb <= list1.length &&
+      list1[nb - 1].done === false
+    ) {
+      list1[parse - 1].taskName = `[✓] ${list1[parse - 1].taskName}`.slice(0);
       console.log("Done");
       // console.log(list1[parse - 1]);
     } else {
@@ -216,7 +278,7 @@ function check(check) {
     const nb = word.slice(1, 2).join(" ");
     let parse = parseInt(nb);
     if (isNaN(nb) == false && nb <= list1.length) {
-      list1[parse - 1] = `[ ] ${list1[parse - 1].slice(4)}`;
+      list1[parse - 1].taskName = `[ ] ${list1[parse - 1].taskName}`.slice(4);
       console.log("Done");
       // console.log(list1[parse - 1]);
     } else {
