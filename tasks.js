@@ -54,7 +54,7 @@ function onDataReceived(text) {
   }
 }
 
-let list1 = ["HTML", "CSS", "JS"];
+let list1 = ["[ ] HTML", "[✓] CSS", "[ ] JS"];
 
 /**
  * prints "unknown command"
@@ -130,7 +130,7 @@ function add(task) {
 
   if (word.length > 1) {
     // console.log(task.replace("add", "").trim());
-    list1.push(task.replace("add", "").trim());
+    list1.push(`[ ] ${task.replace("add", "").trim()}`);
   } else {
     console.log("Please Enter a task");
   }
@@ -172,13 +172,13 @@ function edit(edit) {
     if (arr.length > 2) {
       const thrWord = arr.slice(2).join(" ");
       if (isNaN(secWord) == false && secWord <= list1.length) {
-        list1[pars - 1] = thrWord;
+        list1[pars - 1] = `[ ] ${thrWord}`;
       } else {
         console.log("Error index Invalid");
       }
     } else if (arr.length - 1) {
       list1.splice(list1.length - 1);
-      list1.push(secWord);
+      list1.push(`[ ] ${secWord}`);
     }
   } else {
     console.log("Error");
