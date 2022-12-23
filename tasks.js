@@ -288,3 +288,5 @@ function check(check) {
 }
 // The following line starts the application
 startApp("Abdellatif");
+
+/*end*/
