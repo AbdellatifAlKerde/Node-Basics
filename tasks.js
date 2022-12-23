@@ -45,6 +45,10 @@ function onDataReceived(text) {
     add(text.trim());
   } else if (text.trim().startsWith("remove") || text.trim() === "remove") {
     remove(text.trim());
+  } else if (text === "edit\n") {
+    console.log("Error");
+  } else if (text.split(" ")[0] === "edit") {
+    edit(text);
   } else {
     unknownCommand(text);
   }
@@ -151,6 +155,33 @@ function remove(task) {
     list1.splice(task.replace("remove", "").trim(), 1);
   } else {
     console.log("Error (should be: remove (nb))");
+  }
+}
+
+/**
+ * Edit
+ * @returns {void}
+ */
+function edit(edit) {
+  edit = edit.replace("\n", "").trim();
+  const arr = edit.split(" ");
+  if (arr[0] === "edit") {
+    const secWord = arr.slice(1, 2).join(" ");
+    let pars = parseInt(secWord);
+
+    if (arr.length > 2) {
+      const thrWord = arr.slice(2).join(" ");
+      if (isNaN(secWord) == false && secWord <= list1.length) {
+        list1[pars - 1] = thrWord;
+      } else {
+        console.log("Error index Invalid");
+      }
+    } else if (arr.length - 1) {
+      list1.splice(list1.length - 1);
+      list1.push(secWord);
+    }
+  } else {
+    console.log("Error");
   }
 }
 
