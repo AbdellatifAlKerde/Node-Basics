@@ -45,10 +45,17 @@ function onDataReceived(text) {
     add(text.trim());
   } else if (text.trim().startsWith("remove") || text.trim() === "remove") {
     remove(text.trim());
-  } else if (text === "edit\n") {
+  } else if (text.trim() === "edit\n") {
     console.log("Error");
   } else if (text.split(" ")[0] === "edit") {
     edit(text);
+  } else if (text === "check\n" || text === "uncheck\n") {
+    console.log("Error, Please Enter the nb of task");
+  } else if (
+    text.split(" ")[0] === "check" ||
+    text.split(" ")[0] === "uncheck"
+  ) {
+    check(text);
   } else {
     unknownCommand(text);
   }
@@ -185,5 +192,37 @@ function edit(edit) {
   }
 }
 
+/**
+ * Check
+ *
+ * @returns {void}
+ */
+function check(check) {
+  check = check.replace("\n", "").trim();
+  const word = check.split(" ");
+
+  if (word[0] === "check") {
+    const nb = word.slice(1, 2).join(" ");
+    let parse = parseInt(nb);
+    if (isNaN(nb) == false && nb <= list1.length) {
+      list1[parse - 1] = `[✓] ${list1[parse - 1].slice(4)}`;
+      console.log("Done");
+      // console.log(list1[parse - 1]);
+    } else {
+      console.log("Invalid Index");
+    }
+  }
+  if (word[0] === "uncheck") {
+    const nb = word.slice(1, 2).join(" ");
+    let parse = parseInt(nb);
+    if (isNaN(nb) == false && nb <= list1.length) {
+      list1[parse - 1] = `[ ] ${list1[parse - 1].slice(4)}`;
+      console.log("Done");
+      // console.log(list1[parse - 1]);
+    } else {
+      console.log("Invalid Index");
+    }
+  }
+}
 // The following line starts the application
 startApp("Abdellatif");
